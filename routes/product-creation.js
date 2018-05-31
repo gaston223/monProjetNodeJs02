@@ -24,15 +24,15 @@ router.delete('/suppression', (req, res)=>{
     res.send('Produit supprimé');
   });
   
-router.get('/detail', (req, res, next)=>{
+router.get('/detail/:name', (req, res, next)=>{
   
       console.log("[spy] : Accès au détail du produit");
     //on passe au middleware suivant
     next();
-  }, (req,res)=>{
-    res.send('<h1>Détail du produit</h1>');
+  },(req,res)=>{
+    res.send(`<h1>Détail du produit : ${req.params.name}</h1>`);
   });
-  
+
   
 //Exports du module
 module.exports = router;

@@ -14,13 +14,17 @@ let app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+//Rendre des assets : CSS/JS/IMG/FONTS
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/dist', express.static(path.join(__dirname,'node_modules/jquery/dist')));
+app.use('/dist', express.static(path.join(__dirname,'node_modules/bootstrap/dist')));
 
 //Système de routage
 app.use('/', indexRouter);
@@ -33,10 +37,9 @@ app.get('/contact',(req, res) =>{
 });
 
 
-app.put('/api/products', (req, res)=>{
+app.get('/api/products', (req, res)=>{
   const monObjet = {"name" : "hamac"};
-  const monObjetString = JSON.stringify(monObjet);
-  res.send(monObjetString);
+  res.json(monObjet);
 });
 
 app.get(/(ba)+r+$/, (req, res)=>{
