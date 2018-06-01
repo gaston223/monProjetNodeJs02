@@ -38,7 +38,12 @@ router.route('/creation')
       name : 'Cookies au chocolat',
       introduction :'Recette de cookies de ma grand-mere, elle est super bonne',
       nbIngredients: 7,
-      publishedAt : new Date()
+      publishedAt : new Date(),
+      ingredients:[
+        { name :'farine', unit:'g', quantity: 100},
+        { name :'sucre', unit:'paquet', quantity: 2.5},
+        { name :'sel', unit:'g', quantity: 50},
+      ]
       }, (err,recette)=>{
         if(err){
           console.log(err);
@@ -50,7 +55,21 @@ router.route('/creation')
   res.send('Recette crée');
 });
 
+router.get('/', (req, res)=>{
+  //Récuperation des recettes
+  Recipe.find((err, recipes)=>{
+    if(err){next(err);}
+    else{
+      console.log('Recettes récupérées');
+      console.log(recipes);
+    }
+  
 
+  //Renvoi vers une vue (pour afficher les recettes)
+  res.render('product/list', { recipes: recipes});
+});
+
+});
 router.put('/modification', (req, res)=>{
     res.send('Produit modifié');
   });
