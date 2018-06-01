@@ -1,6 +1,7 @@
 const express =require('express');
 const router =express.Router();
-
+const recipeFile = require('../model/recipe')
+const Recipe = recipeFile.Recipe;
 //Création d'un produit
 router.route('/creation')
 .get((req, res)=>{
@@ -13,7 +14,23 @@ router.route('/creation')
   `);
 })
 .post((req, res)=>{
-    res.send('Produit crée');
+    console.log(req.body);
+    //Ajout de la recette en BDD
+    const maRecette = new Recipe({
+        name : 'Cookies au chocolat',
+        introduction :'Recette de cookies de ma grand-mere, elle est super bonne',
+        nbIngredients: 7,
+        publishedAt : new Date()
+    });
+    maRecette.save((err,recipe)=>{
+      if(err){
+        console.log(err);
+      }
+      else{
+        console.log(recipe);
+      }
+    })
+    res.send('Recette crée');
 });
 
 router.put('/modification', (req, res)=>{
