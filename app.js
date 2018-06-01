@@ -34,7 +34,7 @@ console.log("version de mongoose " +mongoose.version);
 mongoose.connect('mongodb://localhost/food');
 let database = mongoose.connection;
 database.on('error' , (err)=>{
-  console.log("Erruer avec Mongoose");
+  console.log("Erreur avec Mongoose");
   console.log(err);
 });
 

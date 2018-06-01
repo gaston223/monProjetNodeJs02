@@ -15,6 +15,7 @@ router.route('/creation')
 })
 .post((req, res)=>{
     console.log(req.body);
+    /* Enregistrement avec "save" de l'objet
     //Ajout de la recette en BDD
     const maRecette = new Recipe({
         name : 'Cookies au chocolat',
@@ -22,16 +23,33 @@ router.route('/creation')
         nbIngredients: 7,
         publishedAt : new Date()
     });
-    maRecette.save((err,recipe)=>{
+    maRecette.save((err,recette)=>{
       if(err){
         console.log(err);
       }
       else{
-        console.log(recipe);
+        console.log(recette);
       }
     })
     res.send('Recette crée');
 });
+*/
+  Recipe.create({
+      name : 'Cookies au chocolat',
+      introduction :'Recette de cookies de ma grand-mere, elle est super bonne',
+      nbIngredients: 7,
+      publishedAt : new Date()
+      }, (err,recette)=>{
+        if(err){
+          console.log(err);
+      }
+        else{
+          console.log(recette);
+      }
+  });
+  res.send('Recette crée');
+});
+
 
 router.put('/modification', (req, res)=>{
     res.send('Produit modifié');
