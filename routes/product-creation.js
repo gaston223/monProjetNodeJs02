@@ -1,7 +1,9 @@
 const express =require('express');
 const router =express.Router();
+const mongoose=require('mongoose');
 const recipeFile = require('../model/recipe')
 const Recipe = recipeFile.Recipe;
+let createError = require('http-errors');
 //Création d'un produit
 router.route('/creation')
 .get((req, res)=>{
@@ -78,15 +80,33 @@ router.delete('/suppression', (req, res)=>{
     res.send('Produit supprimé');
   });
   
-router.get('/detail/:name', (req, res, next)=>{
+router.get('/detail/:id', (req, res, next)=>{
   
       console.log("[spy] : Accès au détail du produit");
     //on passe au middleware suivant
     next();
-  },(req,res)=>{
-    res.send(`<h1>Détail du produit : ${req.params.name}</h1>`);
-  });
-
+  },(req,res, next)=>{
+    const isIdValid = mongoose.Types.ObjectId.isValid(req.params.id);
+    if(isIdValid){
+      console.log('Id Valide');
+      //find avec l'id
+      Recipe.findOne({
+        '_id' : req.params.id},
+      (err, recipe)=>{
+        if (err){
+          next(err);
+        }
+        else{
+          console.log('Recette récupérée');
+          console.log(recipe);
+          res.render('product/show',{ recipe: recipe });
+        }
+      });
+    } else{
+      next(createError(404));
+    }
+  }
+);
   
 //Exports du module
 module.exports = router;

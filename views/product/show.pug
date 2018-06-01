@@ -1,0 +1,9 @@
+extends ../partials/_layout
+block content
+    h1= recipe.name
+    p= recipe.introduction
+
+    ul
+        each ingredient in recipe.ingredients
+            li= ingredient.quantity + ingredient.unit + ' de ' + ingredient.name
+            
